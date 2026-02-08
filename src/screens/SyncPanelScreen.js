@@ -201,11 +201,11 @@ const SyncPanelScreen = () => {
     const syncedCount = entregas.filter(e => e.estado_envio === 'ENVIADO').length;
 
     return (
-        <View style={styles.container}>
-            <Appbar.Header elevated>
-                <Appbar.BackAction onPress={() => navigation.goBack()} />
-                <Appbar.Content title="Reporte Entregas" />
-                <Appbar.Action icon="sync" onPress={() => handleSync()} disabled={isSyncingEntregas} />
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <Appbar.Header elevated style={{ backgroundColor: theme.colors.primary }}>
+                <Appbar.BackAction onPress={() => navigation.goBack()} color={theme.colors.onPrimary} />
+                <Appbar.Content title="Reporte Entregas" color={theme.colors.onPrimary} />
+                <Appbar.Action icon="sync" onPress={() => handleSync()} disabled={isSyncingEntregas} color={theme.colors.onPrimary} />
             </Appbar.Header>
 
             <View style={styles.filterContainer}>
@@ -301,7 +301,7 @@ const SyncPanelScreen = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
+        // background color handled by theme
     },
     filterContainer: {
         padding: 15,
@@ -335,7 +335,9 @@ const styles = StyleSheet.create({
     },
     card: {
         marginBottom: 12,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        borderRadius: 12,
+        elevation: 2
     },
     cardHeader: {
         flexDirection: 'row',

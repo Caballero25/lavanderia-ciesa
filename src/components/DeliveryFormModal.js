@@ -88,41 +88,36 @@ const DeliveryFormModal = ({ visible, onDismiss, onSave, initialData }) => {
     return (
         <Portal>
             <Modal visible={visible} onDismiss={handleBackdropPress} contentContainerStyle={styles.container}>
-                <Card onTouchStart={handleUserInteraction}>
-                    <Card.Title title="Confirmar Entrega" subtitle={initialData?.nombre || initialData?.code || 'Desconocido'} />
+                <Card onTouchStart={handleUserInteraction} style={{ borderRadius: 16 }}>
+                    <Card.Title
+                        title="Confirmar Entrega"
+                        subtitle={initialData?.nombre || initialData?.code || 'Desconocido'}
+                        titleStyle={{ color: theme.colors.primary, fontWeight: 'bold' }}
+                    />
                     <Card.Content>
                         {isTimerActive && (
-                            <View style={styles.timerContainer}>
-                                <Text style={styles.timerText}>Guardando en {secondsLeft}s...</Text>
-                                <ProgressBar progress={timerProgress} color={theme.colors.primary} />
-                                <Text style={{ fontSize: 12, color: 'gray', marginTop: 5, textAlign: 'center' }}>
-                                    Toca cualquier parte para cancelar auto-envío
+                            <View style={[styles.timerContainer, { backgroundColor: theme.colors.elevation.level1 }]}>
+                                <Text style={[styles.timerText, { color: theme.colors.primary }]}>Guardando en {secondsLeft}s...</Text>
+                                <ProgressBar progress={timerProgress} color={theme.colors.primary} style={{ borderRadius: 4, height: 6 }} />
+                                <Text style={{ fontSize: 12, color: theme.colors.outline, marginTop: 8, textAlign: 'center' }}>
+                                    Toca para detener
                                 </Text>
                             </View>
                         )}
-                        {/* ... */}
 
-
-                        <View style={styles.row}>
-                            <Text>Producto Expuesto</Text>
-                            <Switch
-                                value={productoExpuesto}
-                                onValueChange={setProductoExpuesto}
-                            />
-                        </View>
-                        <View style={styles.row}>
-                            <Text>Mandil Limpio</Text>
-                            <Switch
-                                value={mandilLimpio}
-                                onValueChange={setMandilLimpio}
-                            />
-                        </View>
-                        <View style={styles.row}>
-                            <Text>Mandil Buen Estado</Text>
-                            <Switch
-                                value={mandilBuenEstado}
-                                onValueChange={setMandilBuenEstado}
-                            />
+                        <View style={styles.inputContainer}>
+                            <View style={styles.row}>
+                                <Text variant="bodyLarge">Producto Expuesto</Text>
+                                <Switch value={productoExpuesto} onValueChange={setProductoExpuesto} color={theme.colors.primary} />
+                            </View>
+                            <View style={styles.row}>
+                                <Text variant="bodyLarge">Mandil Limpio</Text>
+                                <Switch value={mandilLimpio} onValueChange={setMandilLimpio} color={theme.colors.primary} />
+                            </View>
+                            <View style={styles.row}>
+                                <Text variant="bodyLarge">Mandil Buen Estado</Text>
+                                <Switch value={mandilBuenEstado} onValueChange={setMandilBuenEstado} color={theme.colors.primary} />
+                            </View>
                         </View>
 
                         <TextInput
@@ -131,11 +126,13 @@ const DeliveryFormModal = ({ visible, onDismiss, onSave, initialData }) => {
                             onChangeText={setObservaciones}
                             mode="outlined"
                             style={styles.input}
+                            outlineColor={theme.colors.outline}
+                            activeOutlineColor={theme.colors.primary}
                         />
                     </Card.Content>
-                    <Card.Actions>
-                        <Button onPress={onDismiss}>Cancelar</Button>
-                        <Button mode="contained" onPress={handleSave}>Enviar</Button>
+                    <Card.Actions style={{ padding: 16 }}>
+                        <Button onPress={onDismiss} textColor={theme.colors.error}>Cancelar</Button>
+                        <Button mode="contained" onPress={handleSave} style={{ marginLeft: 10, paddingHorizontal: 20 }}>Enviar</Button>
                     </Card.Actions>
                 </Card>
             </Modal>
@@ -146,15 +143,23 @@ const DeliveryFormModal = ({ visible, onDismiss, onSave, initialData }) => {
 const styles = StyleSheet.create({
     container: {
         padding: 20,
+        justifyContent: 'center'
+    },
+    inputContainer: {
+        marginVertical: 10
     },
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 15,
+        paddingBottom: 8,
+        borderBottomWidth: 0.5,
+        borderBottomColor: '#e0e0e0'
     },
     input: {
         marginTop: 10,
+        backgroundColor: 'white'
     },
     timerContainer: {
         marginBottom: 20,

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { theme } from './src/theme/theme';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { initDB } from './src/database/db';
@@ -34,7 +35,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="Home" component={HomeScreen} />

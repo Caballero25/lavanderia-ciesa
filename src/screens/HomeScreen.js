@@ -142,23 +142,40 @@ const HomeScreen = ({ navigation }) => {
     if (!turno) {
         return (
             <View style={styles.centerContainer}>
-                <Text variant="headlineMedium" style={{ marginBottom: 20 }}>Seleccione Turno</Text>
-                <Button mode="contained" onPress={() => saveTurno('DIURNO')} style={styles.turnoBtn} contentStyle={{ height: 60 }}>
-                    DIURNO
-                </Button>
-                <Button mode="contained" onPress={() => saveTurno('NOCTURNO')} style={styles.turnoBtn} contentStyle={{ height: 60 }} buttonColor={theme.colors.secondary}>
-                    NOCTURNO
-                </Button>
+                <Card style={{ padding: 20, margin: 20, backgroundColor: 'white', elevation: 4 }}>
+                    <Text variant="headlineMedium" style={{ marginBottom: 30, textAlign: 'center', color: theme.colors.primary, fontWeight: 'bold' }}>
+                        Seleccione Turno
+                    </Text>
+                    <Button
+                        mode="contained"
+                        onPress={() => saveTurno('DIURNO')}
+                        style={styles.turnoBtn}
+                        contentStyle={{ height: 60 }}
+                        icon="weather-sunny"
+                    >
+                        DIURNO
+                    </Button>
+                    <Button
+                        mode="contained"
+                        onPress={() => saveTurno('NOCTURNO')}
+                        style={styles.turnoBtn}
+                        contentStyle={{ height: 60 }}
+                        buttonColor={theme.colors.secondary}
+                        icon="weather-night"
+                    >
+                        NOCTURNO
+                    </Button>
+                </Card>
             </View>
         );
     }
 
     return (
-        <View style={styles.container}>
-            <Appbar.Header>
-                <Appbar.Content title="Entrega Mandiles" subtitle={`Turno: ${turno}`} />
-                <Appbar.Action icon="sync" onPress={() => navigation.navigate('SyncPanel')} />
-                <Appbar.Action icon="cog" onPress={() => Alert.alert("Cambiar Turno", "¿Desea cambiar el turno?", [
+        <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
+            <Appbar.Header elevated style={{ backgroundColor: theme.colors.primary }}>
+                <Appbar.Content title="Entrega Mandiles" subtitle={`Turno: ${turno}`} color={theme.colors.onPrimary} />
+                <Appbar.Action icon="sync" color={theme.colors.onPrimary} onPress={() => navigation.navigate('SyncPanel')} />
+                <Appbar.Action icon="cog" color={theme.colors.onPrimary} onPress={() => Alert.alert("Cambiar Turno", "¿Desea cambiar el turno?", [
                     { text: "Cancelar" },
                     { text: "Sí", onPress: () => setTurno(null) }
                 ])} />
@@ -244,59 +261,71 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f5f5f5',
         flexDirection: 'column'
     },
     centerContainer: {
         flex: 1,
         justifyContent: 'center',
-        padding: 20,
+        padding: 0,
+        backgroundColor: '#F5F7FA'
     },
     turnoBtn: {
         marginBottom: 20,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        borderRadius: 12
     },
     displayContainer: {
-        flex: 1, // Takes updated space
+        flex: 1.2,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
+        padding: 20,
         backgroundColor: 'white',
-        elevation: 2,
-        marginBottom: 2
+        margin: 16,
+        borderRadius: 16,
+        elevation: 4,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4
     },
     hiddenInput: {
         width: '100%',
         backgroundColor: 'transparent',
     },
     helperText: {
-        marginTop: 5,
-        color: 'gray'
+        marginTop: 10,
+        color: '#6c757d',
+        fontSize: 14
     },
     keypadContainer: {
-        flex: 2, // Takes more space for buttons
-        padding: 5,
+        flex: 2,
+        padding: 10,
         justifyContent: 'flex-end',
         paddingBottom: 20
     },
     keypadRow: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginBottom: 10,
+        justifyContent: 'space-between',
+        marginBottom: 12,
         flex: 1
     },
     keypadButton: {
         flex: 1,
-        margin: 4,
+        marginHorizontal: 6,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 8,
+        borderRadius: 12,
         elevation: 2,
-        maxHeight: 70
+        backgroundColor: 'white',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1.41,
     },
     keypadText: {
-        fontSize: 28,
-        fontWeight: 'bold'
+        fontSize: 32,
+        fontWeight: '500',
+        color: '#333'
     }
 });
 
