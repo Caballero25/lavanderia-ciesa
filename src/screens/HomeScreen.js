@@ -8,6 +8,8 @@ import { getDB } from '../database/db';
 import dayjs from 'dayjs';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
+import * as Updates from 'expo-updates';
+import { FAB } from 'react-native-paper';
 
 const HomeScreen = ({ navigation }) => {
     const theme = useTheme();
@@ -17,6 +19,7 @@ const HomeScreen = ({ navigation }) => {
     const [currentData, setCurrentData] = useState(null); // { code, nombre, ... }
     const [snackbarVisible, setSnackbarVisible] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [isCheckingUpdates, setIsCheckingUpdates] = useState(false);
     const inputRef = useRef(null);
 
     // Store logic
@@ -128,6 +131,29 @@ const HomeScreen = ({ navigation }) => {
         inputRef.current?.focus();
     };
 
+    const checkForUpdates = async () => {
+        if (isCheckingUpdates) return;
+        setIsCheckingUpdates(true);
+        try {
+            const updateCheck = await Updates.checkForUpdateAsync();
+            if (!updateCheck.isAvailable) {
+                setSnackbarMessage('No hay actualizaciones disponibles');
+                setSnackbarVisible(true);
+                return;
+            }
+
+            await Updates.fetchUpdateAsync();
+            setSnackbarMessage('Actualización descargada. Recargando...');
+            setSnackbarVisible(true);
+            await Updates.reloadAsync();
+        } catch (e) {
+            console.error('Error buscando actualizaciones:', e);
+            Alert.alert('Actualizaciones', 'No se pudo buscar/descargar actualizaciones.');
+        } finally {
+            setIsCheckingUpdates(false);
+        }
+    };
+
     const KeypadButton = ({ label, onPress, onLongPress, icon, color }) => (
         <TouchableOpacity
             style={[styles.keypadButton, { backgroundColor: color || theme.colors.elevation.level1 }]}
@@ -166,6 +192,16 @@ const HomeScreen = ({ navigation }) => {
                         NOCTURNO
                     </Button>
                 </Card>
+
+                <FAB
+                    small
+                    icon="update"
+                    label=""
+                    loading={isCheckingUpdates}
+                    disabled={isCheckingUpdates}
+                    onPress={checkForUpdates}
+                    style={styles.fabUpdates}
+                />
             </View>
         );
     }
@@ -268,6 +304,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 0,
         backgroundColor: '#F5F7FA'
+    },
+    fabUpdates: {
+        position: 'absolute',
+        right: 16,
+        bottom: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 0
     },
     turnoBtn: {
         marginBottom: 20,
